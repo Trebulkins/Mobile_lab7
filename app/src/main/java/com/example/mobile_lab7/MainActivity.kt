@@ -15,6 +15,7 @@ import androidx.room.Entity
 import androidx.room.Insert
 import androidx.room.PrimaryKey
 import androidx.room.Query
+import androidx.room.Room
 import androidx.room.RoomDatabase
 import java.sql.Date
 import java.sql.Time
@@ -34,7 +35,7 @@ class MainActivity : AppCompatActivity() {
         fun getAll(): List<Crime>
 
         @Query("SELECT * FROM crime WHERE cid IN (:crimeIds)")
-        fun loadAllByIds(CrimeIds: IntArray): List<Crime>
+        fun loadAllByIds(crimeIds: IntArray): List<Crime>
 
         @Insert
         fun insertAll(vararg crimes: Crime)
@@ -65,5 +66,16 @@ class MainActivity : AppCompatActivity() {
             aCrime.putExtra("Move", "add")
             startActivity(aCrime)
         }
+
+        // get the instance of the application's database
+        val db = Room.databaseBuilder(
+            applicationContext, CrimeDatabase::class.java, "CRIME_DATABASE"
+        ).build()
+
+        // create instance of DAO to access the entities
+        val userDao = db.CrimeDao()
+
+        // using the same DAO perform the Database operations
+        val users: List<Crime> = userDao.getAll()
     }
 }
