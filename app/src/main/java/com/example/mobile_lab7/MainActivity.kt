@@ -7,6 +7,11 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+import java.sql.Date
+import java.sql.Time
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -27,6 +32,12 @@ class MainActivity : AppCompatActivity() {
             startActivity(aCrime)
         }
 
-
+        @Entity
+        data class User(
+            @PrimaryKey(autoGenerate = true) val uid: Int,
+            @ColumnInfo(name = "crime") val crimeName: String?,
+            @ColumnInfo(name = "date") val date: Date?,
+            @ColumnInfo(name = "time") val time: Time?
+        )
     }
 }

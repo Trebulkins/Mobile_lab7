@@ -5,6 +5,7 @@ import android.app.TimePickerDialog
 import android.os.Bundle
 import android.widget.Button
 import android.widget.ImageButton
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -24,11 +25,14 @@ class Criminal_info : AppCompatActivity() {
         }
 
         val move = intent.getStringExtra("Move")
+        val datePick = findViewById<Button>(R.id.ChooseDate)
+        val timePick = findViewById<Button>(R.id.ChooseTime)
+        val movetext = findViewById<TextView>(R.id.textView)
+        val mainButton = findViewById<Button>(R.id.button2)
 
         if (move == "add") {
-            val datePick = findViewById<Button>(R.id.ChooseDate)
-            val timePick = findViewById<Button>(R.id.ChooseTime)
-
+            movetext.text = "Добавить дело"
+            mainButton.text = "ДОБАВИТЬ"
             datePick.setOnClickListener {
                 val c = Calendar.getInstance()
 
