@@ -26,5 +26,7 @@ class MainActivity : AppCompatActivity() {
             aCrime.putExtra("Move", "add")
             startActivity(aCrime)
         }
+
+
     }
 }

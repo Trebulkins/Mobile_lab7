@@ -23,45 +23,55 @@ class Criminal_info : AppCompatActivity() {
             insets
         }
 
-        val datePick = findViewById<Button>(R.id.ChooseDate)
-        val timePick = findViewById<Button>(R.id.ChooseTime)
+        val move = intent.getStringExtra("Move")
 
-        datePick.setOnClickListener {
-            val c = Calendar.getInstance()
+        if (move == "add") {
+            val datePick = findViewById<Button>(R.id.ChooseDate)
+            val timePick = findViewById<Button>(R.id.ChooseTime)
 
-            val year = c.get(Calendar.YEAR)
-            val month = c.get(Calendar.MONTH)
-            val day = c.get(Calendar.DAY_OF_MONTH)
+            datePick.setOnClickListener {
+                val c = Calendar.getInstance()
 
-            val datePickerDialog = DatePickerDialog(this,
-                { view, year, monthOfYear, dayOfMonth -> datePick.text =
-                    (dayOfMonth.toString() + "/" + (monthOfYear + 1) + "/" + year)
-                },
-                year,
-                month,
-                day
-            )
-            datePickerDialog.show()
-        }
+                val year = c.get(Calendar.YEAR)
+                val month = c.get(Calendar.MONTH)
+                val day = c.get(Calendar.DAY_OF_MONTH)
 
-        timePick.setOnClickListener {
-            val timeSetListener = TimePickerDialog.OnTimeSetListener { _, hour, minute ->
-                if (hour < 10 && minute < 10) timePick.text = "0$hour:0$minute"
-                else if (hour < 10) timePick.text = "0$hour:$minute"
-                else if (minute < 10) timePick.text = "$hour:0$minute"
-                else timePick.text = "$hour:$minute"
+                val datePickerDialog = DatePickerDialog(
+                    this,
+                    { view, year, monthOfYear, dayOfMonth ->
+                        datePick.text =
+                            (dayOfMonth.toString() + "/" + (monthOfYear + 1) + "/" + year)
+                    },
+                    year,
+                    month,
+                    day
+                )
+                datePickerDialog.show()
             }
-            val timePickerDialog = TimePickerDialog(
-                this,
-                timeSetListener,
-                12, // Default hour
-                0,  // Default minute
-                true // Use 24 hour format
-            )
-            timePickerDialog.show()
+
+            timePick.setOnClickListener {
+                val timeSetListener = TimePickerDialog.OnTimeSetListener { _, hour, minute ->
+                    if (hour < 10 && minute < 10) timePick.text = "0$hour:0$minute"
+                    else if (hour < 10) timePick.text = "0$hour:$minute"
+                    else if (minute < 10) timePick.text = "$hour:0$minute"
+                    else timePick.text = "$hour:$minute"
+                }
+                val timePickerDialog = TimePickerDialog(
+                    this,
+                    timeSetListener,
+                    12, // Default hour
+                    0,  // Default minute
+                    true // Use 24 hour format
+                )
+                timePickerDialog.show()
+            }
+
+            val exit = findViewById<ImageButton>(R.id.imageButton2)
+            exit.setOnClickListener { finish() }
         }
 
-        val exit = findViewById<ImageButton>(R.id.imageButton2)
-        exit.setOnClickListener { finish() }
+        else if (move == "edit"){
+
+        }
     }
 }
