@@ -8,12 +8,46 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.room.ColumnInfo
+import androidx.room.Dao
+import androidx.room.Database
+import androidx.room.Delete
 import androidx.room.Entity
+import androidx.room.Insert
 import androidx.room.PrimaryKey
+import androidx.room.Query
+import androidx.room.RoomDatabase
 import java.sql.Date
 import java.sql.Time
 
 class MainActivity : AppCompatActivity() {
+    @Entity
+    data class Crime(
+        @PrimaryKey(autoGenerate = true) val cid: Int,
+        @ColumnInfo(name = "crime") val crimeName: String?,
+        @ColumnInfo(name = "date") val date: Date?,
+        @ColumnInfo(name = "time") val time: Time?
+    )
+
+    @Dao
+    interface CrimeDao {
+        @Query("SELECT * FROM crime")
+        fun getAll(): List<Crime>
+
+        @Query("SELECT * FROM crime WHERE cid IN (:crimeIds)")
+        fun loadAllByIds(CrimeIds: IntArray): List<Crime>
+
+        @Insert
+        fun insertAll(vararg crimes: Crime)
+
+        @Delete
+        fun delete(crime: Crime)
+    }
+
+    @Database(entities = arrayOf(Crime::class), version = 1)
+    abstract class CrimeDatabase : RoomDatabase() {
+        abstract fun CrimeDao(): CrimeDao
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -31,13 +65,5 @@ class MainActivity : AppCompatActivity() {
             aCrime.putExtra("Move", "add")
             startActivity(aCrime)
         }
-
-        @Entity
-        data class User(
-            @PrimaryKey(autoGenerate = true) val uid: Int,
-            @ColumnInfo(name = "crime") val crimeName: String?,
-            @ColumnInfo(name = "date") val date: Date?,
-            @ColumnInfo(name = "time") val time: Time?
-        )
     }
 }
