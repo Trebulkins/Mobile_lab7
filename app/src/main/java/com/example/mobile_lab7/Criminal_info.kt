@@ -1,8 +1,11 @@
 package com.example.mobile_lab7
 
 import android.app.DatePickerDialog
+import android.app.TimePickerDialog
 import android.os.Bundle
 import android.widget.Button
+import android.widget.ImageButton
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -21,6 +24,7 @@ class Criminal_info : AppCompatActivity() {
         }
 
         val datePick = findViewById<Button>(R.id.ChooseDate)
+        val timePick = findViewById<Button>(R.id.ChooseTime)
 
         datePick.setOnClickListener {
             val c = Calendar.getInstance()
@@ -39,5 +43,25 @@ class Criminal_info : AppCompatActivity() {
             )
             datePickerDialog.show()
         }
+
+        timePick.setOnClickListener {
+            val timeSetListener = TimePickerDialog.OnTimeSetListener { _, hour, minute ->
+                if (hour < 10 && minute < 10) timePick.text = "0$hour:0$minute"
+                else if (hour < 10) timePick.text = "0$hour:$minute"
+                else if (minute < 10) timePick.text = "$hour:0$minute"
+                else timePick.text = "$hour:$minute"
+            }
+            val timePickerDialog = TimePickerDialog(
+                this,
+                timeSetListener,
+                12, // Default hour
+                0,  // Default minute
+                true // Use 24 hour format
+            )
+            timePickerDialog.show()
+        }
+
+        val exit = findViewById<ImageButton>(R.id.imageButton2)
+        exit.setOnClickListener { finish() }
     }
 }
